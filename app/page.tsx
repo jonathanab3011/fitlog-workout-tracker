@@ -17,10 +17,10 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Content */}
-          <div className="lg:col-span-7 space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-[1.05]">
-              TRAIN WITH INTENT. <br />
-              LOG EVERY SET.
+          <div className="lg:col-span-7 space-y-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight uppercase leading-[1.05]">
+              TRAIN WITH INTENT. LOG <br />
+              EVERY SET.
             </h1>
             <p className="text-slate-400 text-sm sm:text-base max-w-lg leading-relaxed">
               A thoughtfully curated, science-backed workout library to track every rep, set, and session with precision.
@@ -41,7 +41,7 @@ export default async function HomePage() {
             <img
               src="/banner.png"
               alt="Workout Illustration"
-              className="w-full h-full object-cover rounded-2xl shadow-2xl"
+              className="w-full h-full"
             />
             </div>
           </div>

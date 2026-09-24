@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dumbbell } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -24,7 +23,7 @@ export default function Navbar() {
         {/* Center: Navigation Links */}
         <nav className="flex items-center gap-6">
           <Link
-            href="/workouts"
+            href="/"
             className={`px-5 py-2 rounded-full text-xs font-bold transition-all ${
               pathname === "/workouts" || pathname === "/"
                 ? "bg-[#172509] text-[#ccff00]"
