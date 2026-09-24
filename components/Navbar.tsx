@@ -3,12 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Navbar() {
+interface NavbarProps {
+  planCount?: number;
+  savedCount?: number;
+}
+
+export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
   const pathname = usePathname();
-  const planCount = 0;
-  const savedCount = 0;
+
+  // Active link logic
   const isWorkoutsActive = pathname === "/" || pathname.startsWith("/workouts");
-  const isPlanActive = pathname === "/plan" || pathname === "/my-plan";
+  const isPlanActive = pathname === "/my-plan";
 
   return (
     <header className="bg-[#0a0b0d] border-b border-slate-900 sticky top-0 z-50">
@@ -35,7 +40,7 @@ export default function Navbar() {
             Workouts
           </Link>
           <Link
-            href="/my-plan" 
+            href="/my-plan"
             className={`px-5 py-2 rounded-full text-xs font-bold transition-all ${
               isPlanActive
                 ? "bg-[#172509] text-[#ccff00]"
@@ -46,11 +51,11 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* Right: Plan & Saved Counters */}
+        {/* Right: Plan & Saved Badge Counters */}
         <div className="flex items-center gap-6">
-          {/* Plan Counter */}
-          <Link href="/plan" className="flex items-center gap-2 group">
-            <span className="text-xs font-semibold text-slate-300 group-hover:text-white">
+          {/* Plan Counter - Links to /my-plan */}
+          <Link href="/my-plan" className="flex items-center gap-2 group">
+            <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
               Plan
             </span>
             <span className="bg-[#ccff00] text-black text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center">
@@ -58,12 +63,12 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Saved Counter */}
-          <Link href="/saved" className="flex items-center gap-2 group">
-            <span className="text-xs font-semibold text-slate-300 group-hover:text-white">
+          {/* Saved Counter - Links to /my-plan */}
+          <Link href="/my-plan" className="flex items-center gap-2 group">
+            <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
               Saved
             </span>
-            <span className="border border-slate-700 text-slate-400 text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+            <span className="border border-slate-700 text-slate-400 group-hover:text-slate-200 text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center transition-colors">
               {savedCount}
             </span>
           </Link>
