@@ -11,6 +11,13 @@ export default function WorkoutAction({ workout }: WorkoutActionProps) {
   const handleAddToPlan = () => {
     try {
       const existingPlan = JSON.parse(localStorage.getItem("fitlog_plan") || "[]");
+
+      // Check for 5-lift cap requirement
+      if (existingPlan.length >= 5) {
+        showToast("Plan cap reached! You can only add up to 5 lifts for today.");
+        return;
+      }
+
       const exists = existingPlan.some(
         (item: any) => String(item.id || item._id) === String(workout.id || workout._id)
       );
