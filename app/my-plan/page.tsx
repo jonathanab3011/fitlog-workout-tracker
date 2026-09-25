@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronDown, Check, X, CheckCircle } from "lucide-react";
+import { ChevronDown, Check, X } from "lucide-react";
+import { showToast } from "@/components/GlobalToast";
 
 export default function MyPlanPage() {
   const [planWorkouts, setPlanWorkouts] = useState<any[]>([]);
@@ -11,7 +12,6 @@ export default function MyPlanPage() {
 
   const [activeTab, setActiveTab] = useState<"todays" | "saved">("todays");
   const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">("duration");
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const loadWorkouts = () => {
     try {
@@ -38,23 +38,16 @@ export default function MyPlanPage() {
     };
   }, []);
 
-  const triggerToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
-
   const currentList = activeTab === "todays" ? planWorkouts : savedWorkouts;
 
   const handleMarkAsDone = (id: string | number) => {
     const updated = currentList.map((item) => {
       if (String(item.id || item._id) === String(id)) {
-        const newCompleted = !item.completed;
-        triggerToast(
-          newCompleted
-            ? `"${item.name || item.title}" marked as done!`
-            : `"${item.name || item.title}" marked as pending.`
-        );
-        return { ...item, completed: newCompleted };
+        // যদি আগেই completed থাকে, তবে আর কিছু হবে না
+        if (item.completed) return item;
+
+        showToast(`"${item.name || item.title}" marked as done!`);
+        return { ...item, completed: true };
       }
       return item;
     });
@@ -87,7 +80,7 @@ export default function MyPlanPage() {
     }
 
     if (removedItem) {
-      triggerToast(`"${removedItem.name || removedItem.title}" removed.`);
+      showToast(`"${removedItem.name || removedItem.title}" removed.`);
     }
 
     window.dispatchEvent(new Event("planUpdated"));
@@ -121,13 +114,6 @@ export default function MyPlanPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 relative">
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#ccff00] text-black font-extrabold px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce border border-black/10">
-          <CheckCircle className="w-5 h-5 text-black" />
-          <span className="text-xs tracking-wide">{toastMessage}</span>
-        </div>
-      )}
-
       <div className="space-y-1.5">
         <h1 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">MY PLAN</h1>
         <p className="text-slate-400 text-xs sm:text-sm font-medium">Cap of five lifts for today. Finish there, then load more.</p>
@@ -216,8 +202,11 @@ export default function MyPlanPage() {
                 <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                   <button
                     onClick={() => handleMarkAsDone(id)}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
-                      workout.completed ? "bg-[#ccff00] text-black" : "bg-slate-800 hover:bg-slate-700 text-slate-200"
+                    disabled={workout.completed}
+                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all ${
+                      workout.completed
+                        ? "bg-[#ccff00] text-black opacity-90 cursor-not-allowed"
+                        : "bg-slate-800 hover:bg-slate-700 text-slate-200 cursor-pointer"
                     }`}
                   >
                     <Check className="w-4 h-4" />
