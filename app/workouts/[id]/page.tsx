@@ -3,7 +3,6 @@ import { Workout } from "@/types/workout";
 import { notFound } from "next/navigation";
 import WorkoutAction from "@/components/WorkoutAction";
 
-
 interface PageProps {
   params: Promise<{
     id: string;
@@ -30,8 +29,6 @@ export default async function WorkoutDetailPage({ params }: PageProps) {
   }
 
   const w = workout as any;
-
-  console.log("Current Workout Object:", w);
 
   const workoutImage =
     w.image || w.imageUrl || w.img || w.thumbnail || "/banner.png";
@@ -60,10 +57,10 @@ export default async function WorkoutDetailPage({ params }: PageProps) {
     : ["No instructions provided."];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-4">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 py-2 sm:py-4">
       {/* Left Column: Image */}
       <div className="lg:col-span-6">
-        <div className="relative aspect-square w-full bg-[#151821] border border-slate-800/80 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="relative aspect-square w-full bg-[#151821] border border-slate-800/80 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
           <img
             key={String(w.id || w._id)}
             src={workoutImage}
@@ -74,27 +71,27 @@ export default async function WorkoutDetailPage({ params }: PageProps) {
       </div>
 
       {/* Right Column: Details */}
-      <div className="lg:col-span-6 space-y-6">
-        <div className="space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+      <div className="lg:col-span-6 space-y-5 sm:space-y-6">
+        <div className="space-y-2.5 sm:space-y-3">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white uppercase tracking-tight leading-snug">
             {title}
           </h1>
-          <p className="text-slate-400 text-sm font-medium leading-relaxed">
+          <p className="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed">
             {description}
           </p>
 
-          <div className="flex flex-wrap gap-2 pt-1">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
             {muscleGroups.length > 0 ? (
               muscleGroups.map((group, idx) => (
                 <span
                   key={idx}
-                  className="bg-[#ccff00] text-black font-extrabold text-xs tracking-wider uppercase px-2.5 py-1 rounded"
+                  className="bg-[#ccff00] text-black font-extrabold text-[10px] sm:text-xs tracking-wider uppercase px-2.5 py-1 rounded"
                 >
                   {group}
                 </span>
               ))
             ) : (
-              <span className="bg-[#ccff00] text-black font-extrabold text-xs tracking-wider uppercase px-2.5 py-1 rounded">
+              <span className="bg-[#ccff00] text-black font-extrabold text-[10px] sm:text-xs tracking-wider uppercase px-2.5 py-1 rounded">
                 General
               </span>
             )}
@@ -102,40 +99,40 @@ export default async function WorkoutDetailPage({ params }: PageProps) {
         </div>
 
         {/* Spec Box */}
-        <div className="bg-[#151821] border border-slate-800/80 rounded-2xl p-5 space-y-3.5 text-xs">
+        <div className="bg-[#151821] border border-slate-800/80 rounded-2xl p-4 sm:p-5 space-y-3 sm:space-y-3.5 text-xs">
           <div className="flex justify-between items-center text-slate-400">
-            <span className="uppercase font-semibold tracking-wider text-slate-500">
+            <span className="uppercase font-semibold tracking-wider text-slate-500 text-[10px] sm:text-xs">
               EQUIPMENT
             </span>
-            <span className="font-bold text-slate-200">
+            <span className="font-bold text-slate-200 text-xs sm:text-sm">
               {w.equipment || w.equipments || w.gear || "Bodyweight / None"}
             </span>
           </div>
-          <div className="border-t border-slate-800/60 pt-3 flex justify-between items-center text-slate-400">
-            <span className="uppercase font-semibold tracking-wider text-slate-500">
+          <div className="border-t border-slate-800/60 pt-2.5 sm:pt-3 flex justify-between items-center text-slate-400">
+            <span className="uppercase font-semibold tracking-wider text-slate-500 text-[10px] sm:text-xs">
               SETS
             </span>
-            <span className="font-bold text-slate-200">{w.sets || w.set || "3"}</span>
+            <span className="font-bold text-slate-200 text-xs sm:text-sm">{w.sets || w.set || "3"}</span>
           </div>
-          <div className="border-t border-slate-800/60 pt-3 flex justify-between items-center text-slate-400">
-            <span className="uppercase font-semibold tracking-wider text-slate-500">
+          <div className="border-t border-slate-800/60 pt-2.5 sm:pt-3 flex justify-between items-center text-slate-400">
+            <span className="uppercase font-semibold tracking-wider text-slate-500 text-[10px] sm:text-xs">
               REPS
             </span>
-            <span className="font-bold text-slate-200">{w.reps || w.rep || "10-12"}</span>
+            <span className="font-bold text-slate-200 text-xs sm:text-sm">{w.reps || w.rep || "10-12"}</span>
           </div>
-          <div className="border-t border-slate-800/60 pt-3 flex justify-between items-center text-slate-400">
-            <span className="uppercase font-semibold tracking-wider text-slate-500">
+          <div className="border-t border-slate-800/60 pt-2.5 sm:pt-3 flex justify-between items-center text-slate-400">
+            <span className="uppercase font-semibold tracking-wider text-slate-500 text-[10px] sm:text-xs">
               DURATION
             </span>
-            <span className="font-bold text-slate-200">
+            <span className="font-bold text-slate-200 text-xs sm:text-sm">
               {w.duration || w.time || 15} min
             </span>
           </div>
         </div>
 
         {/* Instructions */}
-        <div className="space-y-3 pt-2">
-          <h3 className="text-white font-black text-sm tracking-wider uppercase">
+        <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
+          <h3 className="text-white font-black text-xs sm:text-sm tracking-wider uppercase">
             INSTRUCTIONS
           </h3>
           <ol className="space-y-2 text-xs text-slate-400 leading-relaxed list-decimal list-inside">

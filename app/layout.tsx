@@ -20,11 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen antialiased`}>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${inter.className} bg-[#0a0b0d] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-[#ccff00] selection:text-black`}>
         <PlanProvider>
+          {/* Header Navbar */}
           <Navbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+          {/* Main Content Area */}
+          <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
             {children}
           </main>
           
@@ -36,13 +39,16 @@ export default function RootLayout({
             position="top-right"
             toastOptions={{
               style: {
-                background: "#0f172a",
+                background: "#151821",
                 color: "#fff",
-                border: "1px solid #334155",
+                border: "1px solid #1e293b",
+                fontSize: "12px",
+                borderRadius: "12px",
               },
             }}
           />
           
+          {/* Sticky/Bottom Footer */}
           <Footer />
         </PlanProvider>
       </body>

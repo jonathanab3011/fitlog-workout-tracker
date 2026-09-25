@@ -62,22 +62,22 @@ export default function WorkoutAction({ workout }: WorkoutActionProps) {
   };
 
   return (
-    <div className="pt-4">
-      <div className="flex flex-wrap items-center gap-4">
+    <div className="pt-2 sm:pt-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
         <button 
           onClick={handleAddToPlan}
-          className="bg-[#ccff00] hover:bg-[#b8e600] text-black font-extrabold text-xs uppercase px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-md shadow-[#ccff00]/10 cursor-pointer active:scale-95"
+          className="w-full sm:w-auto bg-[#ccff00] hover:bg-[#b8e600] text-black font-extrabold text-xs uppercase px-5 py-3.5 sm:py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-[#ccff00]/10 cursor-pointer active:scale-95 shrink-0"
         >
-          <Calendar className="w-4 h-4" />
-          Add to today's plan
+          <Calendar className="w-4 h-4 shrink-0" />
+          <span>Add to today's plan</span>
         </button>
 
         <button 
           onClick={handleSaveForLater}
-          className="bg-[#151821] hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold text-xs uppercase px-5 py-3 rounded-xl flex items-center gap-2 transition-colors cursor-pointer active:scale-95"
+          className="w-full sm:w-auto bg-[#151821] hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold text-xs uppercase px-5 py-3.5 sm:py-3 rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer active:scale-95 shrink-0"
         >
-          <Bookmark className="w-4 h-4" />
-          Save for later
+          <Bookmark className="w-4 h-4 shrink-0" />
+          <span>Save for later</span>
         </button>
       </div>
     </div>

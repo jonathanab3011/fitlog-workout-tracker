@@ -117,55 +117,60 @@ function MyPlanContent() {
 
   if (!isMounted) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8 text-center text-slate-500 font-medium">
+      <div className="max-w-6xl mx-auto px-4 py-8 text-center text-slate-500 font-medium text-sm">
         Loading plan...
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 relative">
-      <div className="space-y-1.5">
-        <h1 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">MY PLAN</h1>
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-4 sm:py-8 space-y-6 sm:space-y-8 relative">
+      {/* Title */}
+      <div className="space-y-1">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white uppercase tracking-tight">MY PLAN</h1>
         <p className="text-slate-400 text-xs sm:text-sm font-medium">Cap of five lifts for today. Finish there, then load more.</p>
       </div>
 
-      <div className="bg-[#151821] border border-slate-800/80 rounded-2xl p-6 grid grid-cols-3 gap-4">
+      {/* Stats Section */}
+      <div className="bg-[#151821] border border-slate-800/80 rounded-2xl p-4 sm:p-6 grid grid-cols-3 gap-2 sm:gap-4 text-center sm:text-left">
         <div>
-          <p className="text-[11px] font-semibold text-slate-500 uppercase mb-1">Exercises</p>
-          <p className="text-3xl font-black text-[#ccff00]">{totalExercises}</p>
+          <p className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase mb-0.5 sm:mb-1 truncate">Exercises</p>
+          <p className="text-xl sm:text-3xl font-black text-[#ccff00]">{totalExercises}</p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold text-slate-500 uppercase mb-1">Minutes</p>
-          <p className="text-3xl font-black text-white">{totalMinutes}</p>
+          <p className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase mb-0.5 sm:mb-1 truncate">Minutes</p>
+          <p className="text-xl sm:text-3xl font-black text-white">{totalMinutes}</p>
         </div>
         <div>
-          <p className="text-[11px] font-semibold text-slate-500 uppercase mb-1">Calories</p>
-          <p className="text-3xl font-black text-white">{totalCalories}</p>
+          <p className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase mb-0.5 sm:mb-1 truncate">Calories</p>
+          <p className="text-xl sm:text-3xl font-black text-white">{totalCalories}</p>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="bg-[#151821] p-1 rounded-xl border border-slate-800/80 flex items-center gap-1">
+      {/* Controls: Tabs & Sorting */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+        {/* Tabs */}
+        <div className="bg-[#151821] p-1 rounded-xl border border-slate-800/80 flex items-center justify-between sm:justify-start gap-1 w-full sm:w-auto">
           <button
             onClick={() => setActiveTab("todays")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === "todays" ? "bg-[#212634] text-white" : "text-slate-400 hover:text-white"
+            className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "todays" ? "bg-[#212634] text-white shadow" : "text-slate-400 hover:text-white"
             }`}
           >
             Today's Plan ({planWorkouts.length})
           </button>
           <button
             onClick={() => setActiveTab("saved")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === "saved" ? "bg-[#212634] text-white" : "text-slate-400 hover:text-white"
+            className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "saved" ? "bg-[#212634] text-white shadow" : "text-slate-400 hover:text-white"
             }`}
           >
             Saved ({savedWorkouts.length})
           </button>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-slate-400">
+        {/* Sort dropdown */}
+        <div className="flex items-center justify-end gap-2 text-xs text-slate-400 self-end sm:self-auto">
           <span>Sort by</span>
           <div className="relative inline-block">
             <select
@@ -182,8 +187,9 @@ function MyPlanContent() {
         </div>
       </div>
 
+      {/* Workout Items List */}
       {sortedWorkouts.length > 0 ? (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {sortedWorkouts.map((workout) => {
             const id = workout.id || workout._id;
             const img = workout.image || workout.imageUrl || workout.img || workout.thumbnail || "/banner.png";
@@ -192,15 +198,16 @@ function MyPlanContent() {
                 key={id}
                 className={`bg-[#151821] border ${
                   workout.completed ? "border-[#ccff00]/40 bg-[#151821]/60" : "border-slate-800/80"
-                } rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all`}
+                } rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 transition-all`}
               >
-                <div className="flex items-center gap-4 w-full sm:w-auto">
-                  <img src={img} alt={workout.name || workout.title} className="w-16 h-16 rounded-xl object-cover bg-slate-900" />
-                  <div>
-                    <h3 className={`text-base font-black text-white ${workout.completed ? "line-through text-slate-400" : ""}`}>
+                {/* Info Section */}
+                <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                  <img src={img} alt={workout.name || workout.title} className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover bg-slate-900 shrink-0" />
+                  <div className="min-w-0">
+                    <h3 className={`text-sm sm:text-base font-black text-white truncate ${workout.completed ? "line-through text-slate-400" : ""}`}>
                       {workout.name || workout.title}
                     </h3>
-                    <div className="flex gap-4 text-xs text-slate-400 mt-1 font-medium">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[11px] sm:text-xs text-slate-400 mt-1 font-medium">
                       <span>{workout.duration || 20} min</span>
                       <span>•</span>
                       <span>{workout.calories || workout.caloriesBurned || 150} kcal</span>
@@ -210,22 +217,24 @@ function MyPlanContent() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                {/* Buttons Section */}
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-1 sm:pt-0 border-t sm:border-0 border-slate-800/60">
                   <button
                     onClick={() => handleMarkAsDone(id)}
                     disabled={workout.completed}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all ${
+                    className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all active:scale-95 ${
                       workout.completed
                         ? "bg-[#ccff00] text-black opacity-90 cursor-not-allowed"
                         : "bg-slate-800 hover:bg-slate-700 text-slate-200 cursor-pointer"
                     }`}
                   >
-                    <Check className="w-4 h-4" />
-                    {workout.completed ? "Done" : "Mark as Done"}
+                    <Check className="w-4 h-4 shrink-0" />
+                    <span>{workout.completed ? "Done" : "Mark as Done"}</span>
                   </button>
                   <button
                     onClick={() => handleRemove(id)}
-                    className="p-2 bg-slate-800/80 hover:bg-red-500/20 hover:text-red-400 text-slate-400 rounded-xl transition-all cursor-pointer"
+                    className="p-2 bg-slate-800/80 hover:bg-red-500/20 hover:text-red-400 text-slate-400 rounded-xl transition-all cursor-pointer shrink-0 active:scale-95"
+                    aria-label="Remove workout"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -235,15 +244,16 @@ function MyPlanContent() {
           })}
         </div>
       ) : (
-        <div className="bg-[#151821]/40 border border-dashed border-slate-800/80 rounded-3xl p-16 text-center flex flex-col items-center justify-center space-y-4 min-h-[320px]">
-          <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider">NOTHING HERE YET</h2>
+        /* Empty State */
+        <div className="bg-[#151821]/40 border border-dashed border-slate-800/80 rounded-3xl p-8 sm:p-16 text-center flex flex-col items-center justify-center space-y-4 min-h-[280px] sm:min-h-[320px]">
+          <h2 className="text-base sm:text-xl font-black text-white uppercase tracking-wider">NOTHING HERE YET</h2>
           <p className="text-slate-400 text-xs sm:text-sm font-medium max-w-sm">
             {activeTab === "todays" ? "Browse the library and add a lift to get today moving." : "You have no saved workouts yet."}
           </p>
           <div className="pt-2">
             <Link
               href="/"
-              className="inline-block bg-[#ccff00] hover:bg-[#b8e600] text-black font-extrabold text-xs uppercase px-6 py-3 rounded-full transition-all shadow-md shadow-[#ccff00]/10"
+              className="inline-block bg-[#ccff00] hover:bg-[#b8e600] text-black font-extrabold text-xs uppercase px-6 py-3 rounded-full transition-all shadow-md shadow-[#ccff00]/10 active:scale-95"
             >
               Go to workouts
             </Link>
@@ -256,7 +266,7 @@ function MyPlanContent() {
 
 export default function MyPlanPage() {
   return (
-    <Suspense fallback={<div className="text-center py-8 text-slate-500">Loading plan...</div>}>
+    <Suspense fallback={<div className="text-center py-8 text-slate-500 text-sm font-medium">Loading plan...</div>}>
       <MyPlanContent />
     </Suspense>
   );

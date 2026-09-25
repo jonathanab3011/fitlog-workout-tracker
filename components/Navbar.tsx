@@ -34,20 +34,20 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 bg-[#0f1115] border-b border-slate-900/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <img src="/logo.png" alt="logo" className="w-5 h-5" />
-          <span className="text-base font-black text-white tracking-wider uppercase font-sans">
+        <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <img src="/logo.png" alt="logo" className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-sm sm:text-base font-black text-white tracking-wider uppercase font-sans">
             FITLOG
           </span>
         </Link>
 
         {/* Links */}
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-1 sm:gap-2">
           <Link
             href="/"
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+            className={`px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all ${
               pathname === "/"
                 ? "bg-[#1b2b0a] text-[#ccff00]"
                 : "text-slate-400 hover:text-white"
@@ -57,7 +57,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/my-plan?tab=todays"
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+            className={`px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all ${
               pathname === "/my-plan"
                 ? "bg-[#1b2b0a] text-[#ccff00]"
                 : "text-slate-400 hover:text-white"
@@ -68,10 +68,10 @@ export default function Navbar() {
         </nav>
 
         {/* Badges */}
-        <div className="flex items-center gap-5 text-xs font-bold">
+        <div className="flex items-center gap-3 sm:gap-5 text-[11px] sm:text-xs font-bold shrink-0">
           <Link
             href="/my-plan?tab=todays"
-            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 sm:gap-2 text-slate-300 hover:text-white transition-colors"
           >
             <span>Plan</span>
             <span className="bg-[#ccff00] text-black font-black w-5 h-5 rounded-full flex items-center justify-center text-[10px]">
@@ -81,7 +81,7 @@ export default function Navbar() {
 
           <Link
             href="/my-plan?tab=saved"
-            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 sm:gap-2 text-slate-300 hover:text-white transition-colors"
           >
             <span>Saved</span>
             <span className="border border-slate-700 bg-slate-900/80 text-slate-300 font-extrabold w-5 h-5 rounded-full flex items-center justify-center text-[10px]">

@@ -56,18 +56,18 @@ export default function GlobalToast() {
         @keyframes bounceSlideInRight {
           0% {
             opacity: 0;
-            transform: translateX(120%);
+            transform: translateY(20px) scale(0.95);
           }
           60% {
             opacity: 1;
-            transform: translateX(-16px);
+            transform: translateY(-4px) scale(1.02);
           }
           80% {
-            transform: translateX(6px);
+            transform: translateY(2px) scale(0.99);
           }
           100% {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateY(0) scale(1);
           }
         }
 
@@ -76,25 +76,25 @@ export default function GlobalToast() {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-4px);
+            transform: translateY(-3px);
           }
         }
 
         @keyframes slideOutRight {
           0% {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateY(0) scale(1);
           }
           100% {
             opacity: 0;
-            transform: translateX(120%);
+            transform: translateY(20px) scale(0.9);
           }
         }
 
         .toast-enter-bounce {
           animation: 
-            bounceSlideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-            idleSubtleBounce 2s ease-in-out infinite 0.5s;
+            bounceSlideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+            idleSubtleBounce 2s ease-in-out infinite 0.4s;
         }
 
         .toast-exit-slide {
@@ -102,17 +102,18 @@ export default function GlobalToast() {
         }
       `}</style>
 
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none p-2 overflow-hidden">
+      {/* Container: Responsive positioning for mobile & desktop */}
+      <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 flex flex-col gap-2 sm:max-w-sm w-auto pointer-events-none p-1 sm:p-2 overflow-hidden">
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto bg-[#ccff00] text-black font-black px-4 py-3 rounded-2xl shadow-2xl flex items-center justify-between gap-3 border border-black/10 transition-all ${
+            className={`pointer-events-auto bg-[#ccff00] text-black font-black px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl shadow-2xl flex items-center justify-between gap-2.5 sm:gap-3 border border-black/10 transition-all ${
               toast.isExiting ? "toast-exit-slide" : "toast-enter-bounce"
             }`}
           >
-            <div className="flex items-center gap-2.5 text-xs tracking-tight">
+            <div className="flex items-center gap-2 sm:gap-2.5 text-xs tracking-tight">
               <CheckCircle2 className="w-4 h-4 text-black shrink-0" />
-              <span>{toast.message}</span>
+              <span className="line-clamp-2">{toast.message}</span>
             </div>
             <button
               onClick={() => removeToast(toast.id)}
