@@ -3,6 +3,7 @@ import { Workout } from "@/types/workout";
 import { notFound } from "next/navigation";
 import WorkoutAction from "@/components/WorkoutAction";
 
+
 interface PageProps {
   params: Promise<{
     id: string;

@@ -1,18 +1,17 @@
 export interface Workout {
-  id: number;
-  name: string;
-  image: string;
-  imageUrl?: string;    
-  img?: string;          
-  thumbnail?: string;
-  muscleGroups: string[];
-  equipment: string;
-  difficulty: string;
-  duration: number;
-  caloriesBurned: number;
-  sets: number;
-  reps: string;
-  rating: number;
-  description: string;
-  instructions: string[];
+  id?: string;
+  _id?: string;
+  name?: string;
+  title?: string;
+  category?: string;
+  muscleGroups?: string[];
+  equipment?: string;
+  description?: string;
+  duration?: number;
+  calories?: number;
+  caloriesBurned?: number;
+  rating?: number;
+  image?: string;
+  imageUrl?: string;
+  completed?: boolean;
 }

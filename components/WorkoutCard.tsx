@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Workout } from "@/types/workout";
 import { Clock, Flame, Star } from "lucide-react";
 
+
+
 interface WorkoutCardProps {
   workout: Workout;
 }

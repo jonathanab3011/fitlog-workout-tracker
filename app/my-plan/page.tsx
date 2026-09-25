@@ -43,7 +43,7 @@ export default function MyPlanPage() {
   const handleMarkAsDone = (id: string | number) => {
     const updated = currentList.map((item) => {
       if (String(item.id || item._id) === String(id)) {
-        // যদি আগেই completed থাকে, তবে আর কিছু হবে না
+
         if (item.completed) return item;
 
         showToast(`"${item.name || item.title}" marked as done!`);
@@ -86,16 +86,16 @@ export default function MyPlanPage() {
     window.dispatchEvent(new Event("planUpdated"));
   };
 
-  const sortedWorkouts = [...currentList].sort((a, b) => {
-    if (sortBy === "duration") return (Number(b.duration) || 0) - (Number(a.duration) || 0);
-    if (sortBy === "calories")
-      return (
-        (Number(b.calories || b.caloriesBurned) || 0) -
-        (Number(a.calories || a.caloriesBurned) || 0)
-      );
-    if (sortBy === "rating") return (Number(b.rating) || 0) - (Number(a.rating) || 0);
-    return 0;
-  });
+    const sortedWorkouts = [...currentList].sort((a, b) => {
+        if (sortBy === "duration") return (Number(a.duration) || 0) - (Number(b.duration) || 0);
+        if (sortBy === "calories")
+          return (
+            (Number(a.calories || a.caloriesBurned) || 0) -
+            (Number(b.calories || b.caloriesBurned) || 0)
+          );
+        if (sortBy === "rating") return (Number(a.rating) || 0) - (Number(b.rating) || 0);
+        return 0;
+      });
 
   const totalExercises = currentList.length;
   const totalMinutes = currentList.reduce((acc, w) => acc + (Number(w.duration) || 0), 0);

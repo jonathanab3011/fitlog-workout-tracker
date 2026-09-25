@@ -1,17 +1,38 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface NavbarProps {
-  planCount?: number;
-  savedCount?: number;
-}
-
-export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
+export default function Navbar() {
   const pathname = usePathname();
 
-  // Active link logic
+  const [planCount, setPlanCount] = useState<number>(0);
+  const [savedCount, setSavedCount] = useState<number>(0);
+
+  const updateCounts = () => {
+    try {
+      const plan = JSON.parse(localStorage.getItem("fitlog_plan") || "[]");
+      const saved = JSON.parse(localStorage.getItem("fitlog_saved") || "[]");
+      setPlanCount(plan.length);
+      setSavedCount(saved.length);
+    } catch (e) {
+      console.error("Error reading counts from localStorage:", e);
+    }
+  };
+
+  useEffect(() => {
+    updateCounts();
+
+    window.addEventListener("planUpdated", updateCounts);
+    window.addEventListener("storage", updateCounts);
+
+    return () => {
+      window.removeEventListener("planUpdated", updateCounts);
+      window.removeEventListener("storage", updateCounts);
+    };
+  }, []);
+
   const isWorkoutsActive = pathname === "/" || pathname.startsWith("/workouts");
   const isPlanActive = pathname === "/my-plan";
 
@@ -19,7 +40,6 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
     <header className="bg-[#0a0b0d] border-b border-slate-900 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         
-        {/* Left: Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <img src="/logo.png" alt="FITLOG Logo" className="w-6 h-6 object-contain" />
           <span className="text-white font-black text-xl tracking-wider uppercase">
@@ -27,7 +47,6 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
           </span>
         </Link>
 
-        {/* Center: Navigation Links */}
         <nav className="flex items-center gap-6">
           <Link
             href="/"
@@ -51,9 +70,7 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
           </Link>
         </nav>
 
-        {/* Right: Plan & Saved Badge Counters */}
         <div className="flex items-center gap-6">
-          {/* Plan Counter - Links to /my-plan */}
           <Link href="/my-plan" className="flex items-center gap-2 group">
             <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
               Plan
@@ -63,7 +80,6 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
             </span>
           </Link>
 
-          {/* Saved Counter - Links to /my-plan */}
           <Link href="/my-plan" className="flex items-center gap-2 group">
             <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
               Saved

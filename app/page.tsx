@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchAllWorkouts } from "@/lib/api";
-import WorkoutCard, { Workout } from "@/components/WorkoutCard";
+import WorkoutCard from "@/components/WorkoutCard";
+import { Workout } from "@/types/workout";
 
 export default async function HomePage() {
   let workouts: Workout[] = [];
