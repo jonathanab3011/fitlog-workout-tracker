@@ -5,6 +5,7 @@ import { PlanProvider } from "../context/PlanContext";
 import { Toaster } from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
+import GlobalToast from "@/components/GlobalToast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,14 @@ export default function RootLayout({
       <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen antialiased`}>
         <PlanProvider>
           <Navbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">{children}</main>
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {children}
+          </main>
+          
+          {/* Custom Global Stacked Toast Container */}
+          <GlobalToast />
+
+          {/* React Hot Toast Component */}
           <Toaster
             position="top-right"
             toastOptions={{
@@ -34,6 +42,7 @@ export default function RootLayout({
               },
             }}
           />
+          
           <Footer />
         </PlanProvider>
       </body>
