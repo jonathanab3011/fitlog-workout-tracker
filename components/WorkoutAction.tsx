@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronDown, Check, X, CheckCircle } from "lucide-react";
 
 export default function MyPlanPage() {
-  // ডামি ডাটা সরিয়ে খালি অ্যারে সেট করা হলো
+  // Initialize state with empty arrays
   const [planWorkouts, setPlanWorkouts] = useState<any[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<any[]>([]);
   
@@ -13,12 +13,20 @@ export default function MyPlanPage() {
   const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">("duration");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // localStorage থেকে ডাটা লোড করা
+  // Load data from localStorage on mount
   useEffect(() => {
-    const savedPlan = JSON.parse(localStorage.getItem("fitlog_plan") || "[]");
-    const savedList = JSON.parse(localStorage.getItem("fitlog_saved") || "[]");
-    setPlanWorkouts(savedPlan);
-    setSavedWorkouts(savedList);
+    try {
+      const savedPlan = JSON.parse(localStorage.getItem("fitlog_plan") || "[]");
+      const savedList = JSON.parse(localStorage.getItem("fitlog_saved") || "[]");
+
+      // Use setTimeout to avoid synchronous state update in effect
+      setTimeout(() => {
+        setPlanWorkouts(savedPlan);
+        setSavedWorkouts(savedList);
+      }, 0);
+    } catch (error) {
+      console.error("Error parsing localStorage data:", error);
+    }
   }, []);
 
   const triggerToast = (msg: string) => {
@@ -26,10 +34,10 @@ export default function MyPlanPage() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // এক্টিভ ট্যাব অনুযায়ী তালিকা নির্বাচন
+  // Select list according to active tab
   const currentList = activeTab === "todays" ? planWorkouts : savedWorkouts;
 
-  // Mark as Done
+  // Mark as Done Action
   const handleMarkAsDone = (id: string | number) => {
     const updated = currentList.map((item) => {
       if ((item.id || item._id) === id) {
