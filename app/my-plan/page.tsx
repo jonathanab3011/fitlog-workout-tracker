@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ChevronDown, Check, X, CheckCircle } from "lucide-react";
 
 export default function MyPlanPage() {
-  // ডামি ডাটা সরিয়ে খালি অ্যারে সেট করা হলো
   const [planWorkouts, setPlanWorkouts] = useState<any[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<any[]>([]);
   
@@ -13,12 +12,30 @@ export default function MyPlanPage() {
   const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">("duration");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // localStorage থেকে ডাটা লোড করা
+  const loadWorkouts = () => {
+    try {
+      const savedPlan = JSON.parse(localStorage.getItem("fitlog_plan") || "[]");
+      const savedList = JSON.parse(localStorage.getItem("fitlog_saved") || "[]");
+      
+      setTimeout(() => {
+        setPlanWorkouts(savedPlan);
+        setSavedWorkouts(savedList);
+      }, 0);
+    } catch (error) {
+      console.error("Error parsing localStorage data:", error);
+    }
+  };
+
   useEffect(() => {
-    const savedPlan = JSON.parse(localStorage.getItem("fitlog_plan") || "[]");
-    const savedList = JSON.parse(localStorage.getItem("fitlog_saved") || "[]");
-    setPlanWorkouts(savedPlan);
-    setSavedWorkouts(savedList);
+    loadWorkouts();
+
+    window.addEventListener("planUpdated", loadWorkouts);
+    window.addEventListener("storage", loadWorkouts);
+
+    return () => {
+      window.removeEventListener("planUpdated", loadWorkouts);
+      window.removeEventListener("storage", loadWorkouts);
+    };
   }, []);
 
   const triggerToast = (msg: string) => {
@@ -26,10 +43,8 @@ export default function MyPlanPage() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // এক্টিভ ট্যাব অনুযায়ী তালিকা নির্বাচন
   const currentList = activeTab === "todays" ? planWorkouts : savedWorkouts;
 
-  // Mark as Done
   const handleMarkAsDone = (id: string | number) => {
     const updated = currentList.map((item) => {
       if ((item.id || item._id) === id) {
@@ -47,9 +62,10 @@ export default function MyPlanPage() {
       setSavedWorkouts(updated);
       localStorage.setItem("fitlog_saved", JSON.stringify(updated));
     }
+
+    window.dispatchEvent(new Event("planUpdated"));
   };
 
-  // Remove Action
   const handleRemove = (id: string | number) => {
     const filtered = currentList.filter((item) => (item.id || item._id) !== id);
     const removedItem = currentList.find((item) => (item.id || item._id) === id);
@@ -65,9 +81,10 @@ export default function MyPlanPage() {
     if (removedItem) {
       triggerToast(`"${removedItem.name || removedItem.title}" removed.`);
     }
+
+    window.dispatchEvent(new Event("planUpdated"));
   };
 
-  // Sorting Logic
   const sortedWorkouts = [...currentList].sort((a, b) => {
     if (sortBy === "duration") return (b.duration || 0) - (a.duration || 0);
     if (sortBy === "calories") return (b.calories || b.caloriesBurned || 0) - (a.calories || a.caloriesBurned || 0);
@@ -75,14 +92,12 @@ export default function MyPlanPage() {
     return 0;
   });
 
-  // Calculate Stats
   const totalExercises = currentList.length;
   const totalMinutes = currentList.reduce((acc, w) => acc + (Number(w.duration) || 0), 0);
   const totalCalories = currentList.reduce((acc, w) => acc + (Number(w.calories || w.caloriesBurned) || 0), 0);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 relative">
-      {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#ccff00] text-black font-extrabold px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce">
           <CheckCircle className="w-5 h-5 text-black" />
@@ -90,13 +105,11 @@ export default function MyPlanPage() {
         </div>
       )}
 
-      {/* Header */}
       <div className="space-y-1.5">
         <h1 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">MY PLAN</h1>
         <p className="text-slate-400 text-xs sm:text-sm font-medium">Cap of five lifts for today. Finish there, then load more.</p>
       </div>
 
-      {/* Stats Box */}
       <div className="bg-[#151821] border border-slate-800/80 rounded-2xl p-6 grid grid-cols-3 gap-4">
         <div>
           <p className="text-[11px] font-semibold text-slate-500 uppercase mb-1">Exercises</p>
@@ -112,7 +125,6 @@ export default function MyPlanPage() {
         </div>
       </div>
 
-      {/* Tabs & Sort Dropdown */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="bg-[#151821] p-1 rounded-xl border border-slate-800/80 flex items-center gap-1">
           <button
@@ -150,7 +162,6 @@ export default function MyPlanPage() {
         </div>
       </div>
 
-      {/* Dynamic List / Empty State */}
       {sortedWorkouts.length > 0 ? (
         <div className="space-y-4">
           {sortedWorkouts.map((workout) => {
@@ -201,7 +212,6 @@ export default function MyPlanPage() {
           })}
         </div>
       ) : (
-        /* Empty State */
         <div className="bg-[#151821]/40 border border-dashed border-slate-800/80 rounded-3xl p-16 text-center flex flex-col items-center justify-center space-y-4 min-h-[320px]">
           <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider">NOTHING HERE YET</h2>
           <p className="text-slate-400 text-xs sm:text-sm font-medium max-w-sm">
