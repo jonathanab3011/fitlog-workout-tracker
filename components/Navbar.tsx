@@ -44,7 +44,7 @@ export default function Navbar() {
         </Link>
 
         {/* Links */}
-        <nav className="flex items-center gap-0.5 sm:gap-2 shrink-0">
+        <nav className="flex items-center gap-1 sm:gap-2 shrink-0">
           <Link
             href="/"
             className={`px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold transition-all ${
@@ -68,12 +68,12 @@ export default function Navbar() {
         </nav>
 
         {/* Badges */}
-        <div className="flex items-center gap-2 sm:gap-5 text-[10px] sm:text-xs font-bold shrink-0">
+        <div className="flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs font-bold shrink-0">
           <Link
             href="/my-plan?tab=todays"
-            className="flex items-center gap-1 sm:gap-2 text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-1 text-slate-300 hover:text-white transition-colors"
           >
-            <span className="hidden xs:inline sm:inline">Plan</span>
+            <span>Plan</span>
             <span className="bg-[#ccff00] text-black font-black w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center text-[9px] sm:text-[10px]">
               {planCount}
             </span>
@@ -81,9 +81,9 @@ export default function Navbar() {
 
           <Link
             href="/my-plan?tab=saved"
-            className="flex items-center gap-1 sm:gap-2 text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-1 text-slate-300 hover:text-white transition-colors"
           >
-            <span className="hidden xs:inline sm:inline">Saved</span>
+            <span>Saved</span>
             <span className="border border-slate-700 bg-slate-900/80 text-slate-300 font-extrabold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center text-[9px] sm:text-[10px]">
               {savedCount}
             </span>
