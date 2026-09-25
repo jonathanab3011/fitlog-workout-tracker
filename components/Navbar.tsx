@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dumbbell } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -36,7 +35,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-[#0f1115] border-b border-slate-900/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Left: Brand Logo */}
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <img src="/logo.png" alt="logo" className="w-5 h-5" />
           <span className="text-base font-black text-white tracking-wider uppercase font-sans">
@@ -44,7 +43,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Center: Navigation Links */}
+        {/* Links */}
         <nav className="flex items-center gap-2">
           <Link
             href="/"
@@ -57,7 +56,7 @@ export default function Navbar() {
             Workouts
           </Link>
           <Link
-            href="/my-plan"
+            href="/my-plan?tab=todays"
             className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
               pathname === "/my-plan"
                 ? "bg-[#1b2b0a] text-[#ccff00]"
@@ -68,11 +67,10 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* Right: Status Badges */}
+        {/* Badges */}
         <div className="flex items-center gap-5 text-xs font-bold">
-          {/* Plan Badge */}
           <Link
-            href="/my-plan"
+            href="/my-plan?tab=todays"
             className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
           >
             <span>Plan</span>
@@ -81,9 +79,8 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Saved Badge */}
           <Link
-            href="/my-plan"
+            href="/my-plan?tab=saved"
             className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
           >
             <span>Saved</span>

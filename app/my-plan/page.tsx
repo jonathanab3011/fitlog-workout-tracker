@@ -1,17 +1,29 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ChevronDown, Check, X } from "lucide-react";
 import { showToast } from "@/components/GlobalToast";
 
-export default function MyPlanPage() {
+function MyPlanContent() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+
   const [planWorkouts, setPlanWorkouts] = useState<any[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<any[]>([]);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const [activeTab, setActiveTab] = useState<"todays" | "saved">("todays");
   const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">("duration");
+
+  useEffect(() => {
+    if (tabParam === "saved") {
+      setActiveTab("saved");
+    } else if (tabParam === "todays") {
+      setActiveTab("todays");
+    }
+  }, [tabParam]);
 
   const loadWorkouts = () => {
     try {
@@ -43,7 +55,6 @@ export default function MyPlanPage() {
   const handleMarkAsDone = (id: string | number) => {
     const updated = currentList.map((item) => {
       if (String(item.id || item._id) === String(id)) {
-
         if (item.completed) return item;
 
         showToast(`"${item.name || item.title}" marked as done!`);
@@ -86,16 +97,16 @@ export default function MyPlanPage() {
     window.dispatchEvent(new Event("planUpdated"));
   };
 
-    const sortedWorkouts = [...currentList].sort((a, b) => {
-        if (sortBy === "duration") return (Number(a.duration) || 0) - (Number(b.duration) || 0);
-        if (sortBy === "calories")
-          return (
-            (Number(a.calories || a.caloriesBurned) || 0) -
-            (Number(b.calories || b.caloriesBurned) || 0)
-          );
-        if (sortBy === "rating") return (Number(a.rating) || 0) - (Number(b.rating) || 0);
-        return 0;
-      });
+  const sortedWorkouts = [...currentList].sort((a, b) => {
+    if (sortBy === "duration") return (Number(a.duration) || 0) - (Number(b.duration) || 0);
+    if (sortBy === "calories")
+      return (
+        (Number(a.calories || a.caloriesBurned) || 0) -
+        (Number(b.calories || b.caloriesBurned) || 0)
+      );
+    if (sortBy === "rating") return (Number(a.rating) || 0) - (Number(b.rating) || 0);
+    return 0;
+  });
 
   const totalExercises = currentList.length;
   const totalMinutes = currentList.reduce((acc, w) => acc + (Number(w.duration) || 0), 0);
@@ -240,5 +251,13 @@ export default function MyPlanPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function MyPlanPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-8 text-slate-500">Loading plan...</div>}>
+      <MyPlanContent />
+    </Suspense>
   );
 }
