@@ -1,7 +1,7 @@
 import { fetchAllWorkouts } from "@/lib/api";
 import { Workout } from "@/types/workout";
-import { Calendar, Bookmark } from "lucide-react";
 import { notFound } from "next/navigation";
+import WorkoutAction from "@/components/WorkoutAction";
 
 interface PageProps {
   params: Promise<{
@@ -146,17 +146,8 @@ export default async function WorkoutDetailPage({ params }: PageProps) {
           </ol>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-4 pt-4">
-          <button className="bg-[#ccff00] hover:bg-[#b8e600] text-black font-extrabold text-xs uppercase px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-            <Calendar className="w-4 h-4" />
-            Add to today's plan
-          </button>
-          <button className="bg-[#151821] hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold text-xs uppercase px-5 py-3 rounded-xl flex items-center gap-2 transition-colors">
-            <Bookmark className="w-4 h-4" />
-            Save for later
-          </button>
-        </div>
+        {/* Dynamic Action Buttons Component */}
+        <WorkoutAction workout={workout} />
       </div>
     </div>
   );
